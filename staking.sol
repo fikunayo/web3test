@@ -11,22 +11,30 @@ contract giveAndGet {
         uint amount;
         uint time;
     }
-     mapping (address => investor) public link;
+     
      investor[] public allInvestors;
     
     uint amtRequired = 0.5 ether;
     
-     modifier onlyOwner() {
-    require(msg.sender == owner, "caller is the not the owner");
+    modifier onlyOwner() {
+     require(msg.sender == owner, "caller is the not the owner");
     _;
         }
          
-        constructor () public {
+    constructor () public {
         owner = msg.sender;
     }
     function aacceptIn() external payable{
         require(msg.value >= amtRequired);
         //allInvestors.push()
-        investor[msg.sender] = investor(msg.sender, msg.value, block.timestamp);
+        investors[msg.sender] = investor(msg.sender, msg.value, block.timestamp);
        
     }
+    
+function withdraw() external onlyOwner {
+    address payable _owner = address(uint160(owner()));
+    _owner.transfer(address(this).balance + ((20%) * address(this).balance));
+  }
+    
+    
+}
